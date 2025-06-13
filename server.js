@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
-const path = require("path"); 
+const path = require("path");
 
 const app = express();
 
@@ -12,13 +12,18 @@ app.use(express.json());
 const api = require("./routes/apis");
 app.use("/api", api);
 
+//  Home route
+app.get("/", (req, res) => {
+  res.send("Welcome to the AB Node API");
+});
+
+//Serve static files
+app.use("/uploads", express.static("uploads"));
+app.use("/public", express.static(path.join(__dirname, "public")));
+
 const port = process.env.PORT || 3000;
 
-// Serve uploaded files
-app.use("/uploads", express.static("uploads"));
-app.use("/public", express.static(path.join(__dirname, "public"))); // ✅ Now will work
-
-// MongoDB connection
+//Connect to MongoDB
 mongoose
   .connect(process.env.ATLASH_DB)
   .then(() => {
