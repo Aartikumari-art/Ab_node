@@ -40,15 +40,17 @@ const handleCreateDestination = async (req, res) => {
     });
   }
 };
-
 const handleGetDestinations = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 9; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
 
-    const total = await Destination.countDocuments(); 
-    const destinations = await Destination.find().skip(skip).limit(limit);
+    const total = await Destination.countDocuments();
+    const destinations = await Destination.find()
+      .sort({ createdAt: -1 }) 
+      .skip(skip)
+      .limit(limit);
 
     return res.status(200).json({
       status: 200,
@@ -69,7 +71,6 @@ const handleGetDestinations = async (req, res) => {
     });
   }
 };
-
 
 
 
@@ -109,15 +110,17 @@ const handleCreatePackage = async (req, res) => {
 };
 
 
-
 const handleGetTopSellingPackages = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 9; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
 
-    const total = await Package.countDocuments(); // total packages
-    const packages = await Package.find().skip(skip).limit(limit);
+    const total = await Package.countDocuments();
+    const packages = await Package.find()
+      .sort({ createdAt: -1 }) 
+      .skip(skip)
+      .limit(limit);
 
     return res.status(200).json({
       status: 200,
@@ -138,6 +141,7 @@ const handleGetTopSellingPackages = async (req, res) => {
     });
   }
 };
+
 
 
 

@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
 
-const packageSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+const packageSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
 
-  duration: {
-    type: String, 
+    duration: {
+      type: String,
+    },
+   
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 const Package = mongoose.model("Package", packageSchema);
 
