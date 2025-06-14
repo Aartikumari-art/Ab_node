@@ -43,12 +43,22 @@ const handleCreateDestination = async (req, res) => {
 
 const handleGetDestinations = async (req, res) => {
   try {
-    const destinations = await Destination.find();
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 9; 
+    const skip = (page - 1) * limit;
+
+    const total = await Destination.countDocuments(); 
+    const destinations = await Destination.find().skip(skip).limit(limit);
 
     return res.status(200).json({
       status: 200,
       message: "Fetched popular destinations successfully",
       data: destinations,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (err) {
     console.error("Error fetching destinations:", err);
@@ -100,15 +110,24 @@ const handleCreatePackage = async (req, res) => {
 
 
 
-
 const handleGetTopSellingPackages = async (req, res) => {
   try {
-    const packages = await Package.find();
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 9; 
+    const skip = (page - 1) * limit;
+
+    const total = await Package.countDocuments(); // total packages
+    const packages = await Package.find().skip(skip).limit(limit);
 
     return res.status(200).json({
       status: 200,
       message: "Fetched top-selling tour packages successfully",
       data: packages,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (err) {
     console.error("Error fetching packages:", err);
@@ -119,7 +138,6 @@ const handleGetTopSellingPackages = async (req, res) => {
     });
   }
 };
-
 
 
 
